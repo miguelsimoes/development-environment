@@ -1,0 +1,33 @@
+[mysqld]
+user = mysql
+
+datadir = /var/lib/mysql
+tmpdir  = /tmp
+#
+# Version 5.3.3 introduced the "utf8mb4" which is the recommended one
+collation-server     = utf8mb4_unicode_ci
+character-set-server = utf8mb4
+#
+# Prevent some security issues by disabling symlinks
+symbolic-links = 0
+#
+# Disable some features that we will not be using
+skip-external-locking
+skip-federated
+skip-host-cache
+skip-name-resolve
+#
+# Fine tuning the database for increased performance
+key_buffer_size    = 16M
+max_allowed_packet = 16M
+query_cache_limit  = 1M
+query_cache_size   = 16MM
+thread_cache_size  = 8
+thread_stack       = 256K
+#
+# Enable MySQL performance schema
+performance_schema
+
+[mysqldump]
+quick
+quote-names

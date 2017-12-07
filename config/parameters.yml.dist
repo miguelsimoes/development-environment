@@ -1,0 +1,5 @@
+ip_address : 10.100.10.15
+nfs        : false
+
+database_backup      : "<your-database-backupd-folder>"
+web_root             : "<your-web-root-for-http-applications-folder>"
