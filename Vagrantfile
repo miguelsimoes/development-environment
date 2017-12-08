@@ -98,11 +98,12 @@ Vagrant.configure(2) do |config|
     docker.pull_images "smsimoes/rabbitmq-autocluster:latest"
     docker.pull_images "smsimoes/development-web-server:latest"
 
-    docker.run "consul"    , image: "consul:latest"                         , args: "-p 8300:8300 -p 8301:8301 -p 8302:8302 -p 8400:8400 -p 8500:8500 -p 53:8600 -p 8301:8301/udp -p 8302:8302/udp -p 53:8600/udp -v /var/docker/consul/config:/consul/config -v /var/docker/consul/data:/consul/data"
-    docker.run "memcached" , image: "memcached:latest"                      , args: "-p 11211:11211"
-    docker.run "mysql"     , image: "mysql:5.6"                             , args: "-p 3306:3306 -v /var/docker/mysql/conf.d:/etc/mysql/conf.d -v /var/docker/mysql/databases:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=vagrant"
-    docker.run "rabbitmq"  , image: "smsimoes/rabbitmq-autocluster:latest"  , args: "-p 15672:15672 -p 5672:5672 -p 15674:15674 -v /var/docker/rabbitmq:/var/lib/rabbitmq" 
-    docker.run "web-server", image: "smsimoes/development-web-server:latest", args: "-p 80:80 -v /var/www/html:/var/www/html -v /var/docker/nginx/sites-enabled:/opt/openresty/nginx/conf/sites-enabled -e APPLICATION_ENVIRONMENT=dev -e APPLICATION_DEBUG=1"
+    docker.run "consul"     , image: "consul:latest"                         , args: "-p 8300:8300 -p 8301:8301 -p 8302:8302 -p 8400:8400 -p 8500:8500 -p 53:8600 -p 8301:8301/udp -p 8302:8302/udp -p 53:8600/udp -v /var/docker/consul/config:/consul/config -v /var/docker/consul/data:/consul/data -e SERVICE_8500_NAME=consul-interface -e SERVICE_8600_NAME=consul-dns"
+    docker.run "registrator", image: "gliderlabs/registrator:latest"	     , args: "-v /var/run/docker.sock:/tmp/docker.sock", cmd: "consul://10.100.10.15:8500"
+    docker.run "memcached"  , image: "memcached:latest"                      , args: "-p 11211:11211 -e SERVICE_11211_NAME=memcached"
+    docker.run "mysql"      , image: "mysql:5.6"                             , args: "-p 3306:3306 -v /var/docker/mysql/conf.d:/etc/mysql/conf.d -v /var/docker/mysql/databases:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=vagrant -e SERVICE_3306_NAME=mysql"
+    docker.run "rabbitmq"   , image: "smsimoes/rabbitmq-autocluster:latest"  , args: "-p 15672:15672 -p 5672:5672 -p 15674:15674 -v /var/docker/rabbitmq:/var/lib/rabbitmq -e SERVICE_15674_NAME=rabbitmq-stomp -e SERVICE_5672_NAME=rabbitmq -e SERVICE_15672_NAME=rabbitmq-management" 
+    docker.run "web-server" , image: "smsimoes/development-web-server:latest", args: "-p 80:80 -v /var/www/html:/var/www/html -v /var/docker/nginx/sites-enabled:/opt/openresty/nginx/conf/sites-enabled -e APPLICATION_ENVIRONMENT=dev -e APPLICATION_DEBUG=1 -e SERVICE_80_NAME=web-applications"
   end
 
   config.vm.provision "shell", run: "always", inline: <<-SHELL
