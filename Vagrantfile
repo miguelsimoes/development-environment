@@ -67,7 +67,7 @@ Vagrant.configure(2) do |config|
     vb.gui = false
  
     # Customize the name of the VM:
-    vb.name = "actualsales-development-20160805"
+    vb.name = "smsimoes-development-20171208"
 
     # Customize the amount of memory on the VM:
     vb.memory = "2048"
@@ -91,11 +91,14 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.provision "docker" do |docker|
+    docker.pull_images "consul:latest"
+    docker.pull_images "gliderlabs/registrator:latest"
     docker.pull_images "memcached:latest"
     docker.pull_images "mysql:5.6"
     docker.pull_images "smsimoes/rabbitmq-autocluster:latest"
-    docker.pull_images "actualsalesgroup/development-web-server:latest"
+    docker.pull_images "smsimoes/development-web-server:latest"
 
+    docker.run "consul"    , image: "consul:latest"                         , args: "-p 8300:8300 -p 8301:8301 -p 8302:8302 -p 8400:8400 -p 8500:8500 -p 53:8600 -p 8301:8301/udp -p 8302:8302/udp -p 53:8600/udp -v /var/docker/consul/config:/consul/config -v /var/docker/consul/data:/consul/data"
     docker.run "memcached" , image: "memcached:latest"                      , args: "-p 11211:11211"
     docker.run "mysql"     , image: "mysql:5.6"                             , args: "-p 3306:3306 -v /var/docker/mysql/conf.d:/etc/mysql/conf.d -v /var/docker/mysql/databases:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=vagrant"
     docker.run "rabbitmq"  , image: "smsimoes/rabbitmq-autocluster:latest"  , args: "-p 15672:15672 -p 5672:5672 -p 15674:15674 -v /var/docker/rabbitmq:/var/lib/rabbitmq" 
