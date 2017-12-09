@@ -1,4 +1,13 @@
+#
+# List of elements to be excluded from the repository
 /.vagrant/
 /config/parameters.yml
-/src/
-
+/data/*
+/data/mysql/*
+/data/mysql/databases/*
+#
+# Ensure that the files within the exclusion rules are still added to the repository
+!/data
+!/data/mysql
+!/data/mysql/databases
+!/data/mysql/databases/.gitkeep
