@@ -55,8 +55,8 @@ Vagrant.configure(2) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   config.vm.synced_folder ".", "/vagrant"
-  config.vm.synced_folder parameters["web_root"]       , "/var/www/html", :nfs => parameters["nfs"], owner: "www-data", group: "www-data"
-  config.vm.synced_folder parameters["database_backup"], "/var/docker/mysql", :nfs => parameters["nfs"], owner: "vboxadd", group: "root"
+  config.vm.synced_folder parameters["web_root"]  , "/var/www/html", :nfs => parameters["nfs"], owner: "www-data", group: "www-data"
+  config.vm.synced_folder "./data/mysql/databases", "/var/docker/mysql", :nfs => parameters["nfs"], owner: "vboxadd", group: "root"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -92,6 +92,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "docker" do |docker|
     docker.pull_images "consul:latest"
+    docker.pull_images "vault:latest"
     docker.pull_images "gliderlabs/registrator:latest"
     docker.pull_images "memcached:latest"
     docker.pull_images "mysql:5.6"
@@ -103,7 +104,7 @@ Vagrant.configure(2) do |config|
     docker.run "memcached"  , image: "memcached:latest"                      , args: "-p 11211:11211 -e SERVICE_11211_NAME=memcached"
     docker.run "mysql"      , image: "mysql:5.6"                             , args: "-p 3306:3306 -v /var/docker/mysql/conf.d:/etc/mysql/conf.d -v /var/docker/mysql/databases:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=vagrant -e SERVICE_3306_NAME=mysql"
     docker.run "rabbitmq"   , image: "smsimoes/rabbitmq-autocluster:latest"  , args: "-p 15672:15672 -p 5672:5672 -p 15674:15674 -v /var/docker/rabbitmq:/var/lib/rabbitmq -e SERVICE_15674_NAME=rabbitmq-stomp -e SERVICE_5672_NAME=rabbitmq -e SERVICE_15672_NAME=rabbitmq-management" 
-    docker.run "web-server" , image: "smsimoes/development-web-server:latest", args: "-p 80:80 -v /var/www/html:/var/www/html -v /var/docker/nginx/sites-enabled:/opt/openresty/nginx/conf/sites-enabled -e APPLICATION_ENVIRONMENT=dev -e APPLICATION_DEBUG=1 -e SERVICE_80_NAME=web-applications"
+    docker.run "web-server" , image: "smsimoes/development-web-server:latest", args: "--dns=172.17.0.1 --dns-search service.consul --dns-search node.consul -p 80:80 -v /var/www/html:/var/www/html -v /var/docker/nginx/sites-enabled:/opt/openresty/nginx/conf/sites-enabled -e APPLICATION_ENVIRONMENT=dev -e APPLICATION_DEBUG=1 -e SERVICE_80_NAME=web-applications"
   end
 
   config.vm.provision "shell", run: "always", inline: <<-SHELL
