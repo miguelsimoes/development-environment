@@ -2,7 +2,7 @@
 	"bootstrap_expect"  : 1,
 	"client_addr"       : "0.0.0.0",
 	"datacenter"        : "development",
-	"data_dir"    	    : "/opt/consult",
+	"data_dir"    	    : "/consul/data",
         "dns_config"        : {
 		"allow_stale": true,
 		"max_stale"  : "1s"
