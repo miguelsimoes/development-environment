@@ -5,6 +5,7 @@
 /data/*
 /data/mysql/*
 /data/mysql/databases/*
+/data/web-root/*
 #
 # Ensure that the files within the exclusion rules are still added to the repository
 !/data
@@ -12,3 +13,6 @@
 !/data/mysql/databases
 !/data/mysql/databases/.gitkeep
 !/data/vault
+!/data/.gitkeep
+!/data/web-root
+!/data/web-root/.gitkeep

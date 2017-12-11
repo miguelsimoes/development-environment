@@ -1,4 +1,4 @@
 ip_address : 10.100.10.15
 nfs        : false
 
-web_root             : "<your-web-root-for-http-applications-folder>"
+web_root   : "./data/web-root"
