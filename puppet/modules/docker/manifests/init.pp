@@ -7,7 +7,7 @@
 class docker {
 
   file {
-    [ "/var/docker", "/var/docker/mysql", "/var/docker/mysql/databases", "/var/docker/consul", "/var/docker/consul/data", "/var/docker/vault", "/var/docker/vault/file", "/var/docker/vault/logs" ] :
+    [ "/var/docker", "/var/docker/consul", "/var/docker/consul/data", "/var/docker/mysql", "/var/docker/mysql/databases", "/var/docker/redis", "/var/docker/redis/databases", "/var/docker/vault", "/var/docker/vault/file", "/var/docker/vault/logs" ] :
       ensure => "directory";
 
     "/etc/docker/daemon.json":
@@ -18,12 +18,6 @@ class docker {
       purge   => false,
       recurse => true,
       source  => "puppet:///modules/docker/services/consul/config";
-
-    "/var/docker/vault/config":
-      ensure  => "directory",
-      purge   => false,
-      recurse => true,
-      source  => "puppet:///modules/docker/services/vault/config";
 
     "/var/docker/mysql/conf.d":
       ensure  => "directory",
@@ -36,5 +30,11 @@ class docker {
       purge   => true,
       recurse => true,
       source  => "puppet:///modules/docker/services/nginx";
+
+    "/var/docker/vault/config":
+      ensure  => "directory",
+      purge   => false,
+      recurse => true,
+      source  => "puppet:///modules/docker/services/vault/config";
   }
 }

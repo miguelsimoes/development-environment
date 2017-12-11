@@ -56,6 +56,13 @@ class baseconfig {
   }
 
   exec {
+    "puppet-configuration":
+      command => "puppet agent --enable",
+      path    => [ "/usr/bin" ],
+      require => Service["puppetmaster"]
+  }
+
+  exec {
     "update-npm":
       command => "npm install -g npm",
       path    => [ "/bin", "/usr/sbin", "/usr/bin" ],
