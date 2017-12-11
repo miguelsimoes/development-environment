@@ -23,6 +23,7 @@ class baseconfig {
     "git"            : ensure => latest,require => Exec["update-system"];
     "libjpeg-dev"    : ensure => latest,require => Exec["update-system"];
     "nodejs"         : ensure => latest,require => Exec["update-system"];
+    "puppetmaster"   : ensure => latest,require => Exec["update-system"];
     "telnet"         : ensure => latest,require => Exec["update-system"];
     "vim"            : ensure => latest,require => Exec["update-system"];
   }
@@ -49,9 +50,19 @@ class baseconfig {
   }
 
   exec {
+    "define-locale":
+      command => "ln -sf /usr/share/zoneinfo/UTC /etc/localtime",
+      path    => [ "/bin" ]
+  }
+
+  exec {
     "update-npm":
       command => "npm install -g npm",
       path    => [ "/bin", "/usr/sbin", "/usr/bin" ],
       require => Package["nodejs"]
+  }
+
+  service { "puppetmaster":
+    ensure => "running"
   }
 }
