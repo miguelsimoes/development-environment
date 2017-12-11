@@ -12,5 +12,3 @@
 !/data/mysql/databases
 !/data/mysql/databases/.gitkeep
 !/data/vault
-!/data/vault/keys
-!/data/vault/token
