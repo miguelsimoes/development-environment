@@ -8,6 +8,9 @@ tmpdir  = /tmp
 collation-server     = utf8mb4_unicode_ci
 character-set-server = utf8mb4
 #
+# Ensure we will require explicit defaults for timestamp fields
+explicit_defaults_for_timestamp = 1
+#
 # Prevent some security issues by disabling symlinks
 symbolic-links = 0
 #
@@ -24,6 +27,9 @@ query_cache_limit  = 1M
 query_cache_size   = 16MM
 thread_cache_size  = 8
 thread_stack       = 256K
+#
+# Configure the InnoDB engine to work properly
+innodb_use_native_aio=0
 #
 # Enable MySQL performance schema
 performance_schema

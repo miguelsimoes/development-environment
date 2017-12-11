@@ -10,28 +10,31 @@ class docker {
     [ "/var/docker", "/var/docker/mysql", "/var/docker/mysql/databases", "/var/docker/consul", "/var/docker/consul/data", "/var/docker/vault", "/var/docker/vault/file", "/var/docker/vault/logs" ] :
       ensure => "directory";
 
+    "/etc/docker/daemon.json":
+      source => "puppet:///modules/docker/etc/daemon.json";
+
     "/var/docker/consul/config":
       ensure  => "directory",
       purge   => false,
       recurse => true,
-      source  => "puppet:///modules/docker/consul/config";
+      source  => "puppet:///modules/docker/services/consul/config";
 
     "/var/docker/vault/config":
       ensure  => "directory",
       purge   => false,
       recurse => true,
-      source  => "puppet:///modules/docker/vault/config";
+      source  => "puppet:///modules/docker/services/vault/config";
 
     "/var/docker/mysql/conf.d":
       ensure  => "directory",
       purge   => false,
       recurse => true,
-      source  => "puppet:///modules/docker/mysql/conf.d";
+      source  => "puppet:///modules/docker/services/mysql/conf.d";
 
     "/var/docker/nginx":
       ensure  => directory,
       purge   => true,
       recurse => true,
-      source  => "puppet:///modules/docker/nginx";
+      source  => "puppet:///modules/docker/services/nginx";
   }
 }
