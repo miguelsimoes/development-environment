@@ -14,6 +14,7 @@ Within the development environment, you will find a set of tools that are alread
 * Vault with Consul Backend
 * VaultUI
 * Development WebServer
+
 Looking closely, you will see that this environment is fully targeted for the Microservices architecture, however it will work just fine for a monolithic application.
 
 ## Index
