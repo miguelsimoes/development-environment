@@ -3,6 +3,18 @@
 ## Introduction
 Developing fast requires a fast development environment being built on every developer computer. We will attempt to make it available under a [VirtualBox](https://www.virtualbox.org) + [Vagrant](https://www.vagrantup.com) + [Docker](https://www.docker.com) provisioning on every operating system, based on Debian Jessie.
 
+## Available tools
+Within the development environment, you will find a set of tools that are already configured and ready to use:
+* MySQL
+* Redis
+* Memcached
+* RabbitMQ Management (with auto-cluster and webstomp plugins enabled)
+* Consul
+* Consul Registrator
+* Vault with Consul Backend
+* VaultUI
+* Development WebServer
+
 ## Index
 * Requirements
 * Configuration
