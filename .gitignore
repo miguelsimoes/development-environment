@@ -16,3 +16,5 @@
 !/data/.gitkeep
 !/data/web-root
 !/data/web-root/.gitkeep
+/data/web-root/authentication/nbproject/private/
+/data/web-root/api-gateway/nbproject/private/
