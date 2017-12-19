@@ -5,6 +5,7 @@
 /data/*
 /data/mysql/*
 /data/mysql/databases/*
+/data/vault/*
 /data/web-root/*
 #
 # Ensure that the files within the exclusion rules are still added to the repository
