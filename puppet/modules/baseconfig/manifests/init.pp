@@ -16,16 +16,17 @@ class baseconfig {
   }
 
   package { 
-    "bash-completion": ensure => latest,require => Exec["update-system"];
-    "dbus"           : ensure => latest,require => Exec["update-system"];
-    "dnsutils"       : ensure => latest,require => Exec["update-system"];
-    "eject"          : ensure => purged;
-    "git"            : ensure => latest,require => Exec["update-system"];
-    "libjpeg-dev"    : ensure => latest,require => Exec["update-system"];
-    "nodejs"         : ensure => latest,require => Exec["update-system"];
-    "puppetmaster"   : ensure => latest,require => Exec["update-system"];
-    "telnet"         : ensure => latest,require => Exec["update-system"];
-    "vim"            : ensure => latest,require => Exec["update-system"];
+    "bash-completion"           : ensure => latest,require => Exec["update-system"];
+    "dbus"                      : ensure => latest,require => Exec["update-system"];
+    "dnsutils"                  : ensure => latest,require => Exec["update-system"];
+    "eject"                     : ensure => purged;
+    "git"                       : ensure => latest,require => Exec["update-system"];
+    "libjpeg-dev"               : ensure => latest,require => Exec["update-system"];
+    "nodejs"                    : ensure => latest,require => Exec["update-system"];
+    "puppetmaster"              : ensure => latest,require => Exec["update-system"];
+    "software-properties-common": ensure => latest, require => Exec["update-system"];
+    "telnet"                    : ensure => latest,require => Exec["update-system"];
+    "vim"                       : ensure => latest,require => Exec["update-system"];
   }
 
   file {
@@ -70,6 +71,7 @@ class baseconfig {
   }
 
   service { "puppetmaster":
-    ensure => "running"
+    ensure  => "running",
+    require => Package["puppetmaster"]
   }
 }
