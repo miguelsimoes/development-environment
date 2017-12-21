@@ -11,6 +11,7 @@
 # Ensure that the files within the exclusion rules are still added to the repository
 !/data
 !/data/mysql
+!/data/mysql/.gitkeep
 !/data/mysql/databases
 !/data/mysql/databases/.gitkeep
 !/data/vault
