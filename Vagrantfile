@@ -102,7 +102,7 @@ Vagrant.configure(2) do |config|
     docker.pull_images "djenriquez/vault-ui:latest"
 
     docker.run "consul"     , image: "consul:latest"                         , args: "-p 8300:8300 -p 8301:8301 -p 8302:8302 -p 8500:8500 -p 53:8600 -p 8301:8301/udp -p 8302:8302/udp -p 53:8600/udp -v /var/docker/consul/config:/consul/config -v /var/docker/consul/data:/consul/data -e SERVICE_8300_NAME=consul-rpc -e SERVICE_8301_NAME=consul-serf-lan -e SERVICE_8302_NAME=consul-serf-wan -e SERVICE_8500_NAME=consul-interface -e SERVICE_8600_NAME=consul-dns", cmd: "agent -server -bootstrap-expect=1 -ui"
-    docker.run "registrator", image: "gliderlabs/registrator:latest"	       , args: "-v /var/run/docker.sock:/tmp/docker.sock"                                      , cmd: "consul://10.100.10.15:8500"
+    docker.run "registrator", image: "gliderlabs/registrator:latest"	       , args: "-v /var/run/docker.sock:/tmp/docker.sock", cmd: "consul://10.100.10.15:8500"
     docker.run "vault"      , image: "vault:latest"                          , args: "--dns=172.17.0.1 --dns-search service.consul --dns-search node.consul -p 8200:8200 -p 8201:8201 -v /var/docker/vault/logs:/vault/logs -v /var/docker/vault/file:/vault/file -v /var/docker/vault/config:/vault/config -e SKIP_SETCAP=true -e SERVICE_8200_NAME=vault -e SERVICE_8201_NAME=vault-cluster", cmd: "server"
     docker.run "vault-ui"   , image: "djenriquez/vault-ui:latest"            , args: "--dns=172.17.0.1 --dns-search service.consul --dns-search node.consul -p 8280:8000 -e NODE_TLS_REJECT_UNAUTHORIZED=0 -e VAULT_URL_DEFAULT=http://172.17.0.1:8200 -e VAULT_AUTH_DEFAULT=TOKEN"
     docker.run "memcached"  , image: "memcached:latest"                      , args: "-p 11211:11211 -e SERVICE_11211_NAME=memcached"
