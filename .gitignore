@@ -1,5 +1,6 @@
 #
 # List of elements to be excluded from the repository
+/*.log
 /.vagrant/
 /config/parameters.yml
 /data/*
