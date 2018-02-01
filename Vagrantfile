@@ -109,7 +109,7 @@ Vagrant.configure(2) do |config|
     docker.run "mysql"      , image: "mysql:5.6"                             , args: "-p 3306:3306 -v /var/docker/mysql/conf.d:/etc/mysql/conf.d -v /var/docker/mysql/databases:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=vagrant -e SERVICE_3306_NAME=mysql"
     docker.run "rabbitmq"   , image: "smsimoes/rabbitmq-autocluster:latest"  , args: "-p 15672:15672 -p 5672:5672 -p 15674:15674 -v /var/docker/rabbitmq:/var/lib/rabbitmq -e SERVICE_15674_NAME=rabbitmq-stomp -e SERVICE_5672_NAME=rabbitmq -e SERVICE_15672_NAME=rabbitmq-management" 
     docker.run "redis"      , image: "redis:latest"                          , args: "-p 6379:6379 -v /var/docker/redis/databases:/data -e SERVICE_6379_NAME=redis", cmd: "--appendonly yes"
-    docker.run "web-server" , image: "smsimoes/development-web-server:latest", args: "--dns=172.17.0.1 --dns-search service.consul --dns-search node.consul -p 80:80 -v /var/www/html:/var/www/html -v /var/docker/nginx/sites-enabled:/opt/openresty/nginx/conf/sites-enabled -e SERVICE_80_NAME=web-applications"
+    docker.run "web-server" , image: "smsimoes/development-web-server:latest", args: "--dns=172.17.0.1 --dns-search service.consul --dns-search node.consul -p 80:80 -v /var/www/html:/var/www/html -v /var/docker/nginx/sites-enabled:/opt/openresty/nginx/conf/sites-enabled -e SERVICE_80_NAME=web-applications -e APPLICATION_ENVIRONMENT=dev -e APPLICATION_DEBUG=1"
   end
 
   config.vm.provision "shell", run: "always", inline: <<-SHELL
